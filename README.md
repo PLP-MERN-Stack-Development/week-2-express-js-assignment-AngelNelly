@@ -6,12 +6,12 @@ A simple RESTful API for managing products using Node.js, Express, and MongoDB.
 
 ## Table of Contents
 
-- [Overview](#overview)  
-- [Setup & Run](#setup--run)  
-- [Environment Variables](#environment-variables)  
-- [API Endpoints](#api-endpoints)  
-- [Example Requests & Responses](#example-requests--responses)  
-- [Error Handling](#error-handling)  
+- [Overview](#overview)
+- [Setup & Run](#setup--run)
+- [Environment Variables](#environment-variables)
+- [API Endpoints](#api-endpoints)
+- [Example Requests & Responses](#example-requests--responses)
+- [Error Handling](#error-handling)
 - [License](#license)
 
 ---
@@ -20,9 +20,9 @@ A simple RESTful API for managing products using Node.js, Express, and MongoDB.
 
 This API allows you to create, read, update, and delete products stored in a MongoDB database. It includes:
 
-- Input validation for product data  
-- API key authentication for protected routes (POST, PUT, DELETE)  
-- Pagination and filtering for listing products  
+- Input validation for product data
+- API key authentication for protected routes (POST, PUT, DELETE)
+- Pagination and filtering for listing products
 - Custom error handling
 
 ---
@@ -31,8 +31,8 @@ This API allows you to create, read, update, and delete products stored in a Mon
 
 ### Prerequisites
 
-- Node.js (v14 or higher recommended)  
-- MongoDB running locally or accessible remotely  
+- Node.js (v14 or higher recommended)
+- MongoDB running locally or accessible remotely
 
 ### Steps
 
@@ -42,35 +42,31 @@ This API allows you to create, read, update, and delete products stored in a Mon
    git clone https://github.com/PLP-MERN-Stack-Development/week-2-express-js-assignment-AngelNelly.git
 
    cd your-repo-name
-   
-   Install dependencies:
 
-bash
-Copy
-Edit
+   Install dependencies:
+   ```
+
+```
 npm install
+
 Create a .env file based on .env.example (see below) and configure your environment variables.
 
 Start your MongoDB server if it’s not running:
 
-bash
-Copy
-Edit
+```
+
 mongod
+
 Run the server:
 
-bash
-Copy
-Edit
+````
 node server.js
 Your API will be accessible at: http://localhost:3000
 
 Environment Variables
 Create a .env file in the root folder. Here's an example .env.example file:
 
-ini
-Copy
-Edit
+```ini
 MONGO_URI=mongodb://localhost:27017/productsdb
 API_KEY=my-secret-key
 PORT=3000
@@ -89,9 +85,6 @@ Example Requests & Responses
 1. Create a new product (POST)
 Request
 
-http
-Copy
-Edit
 POST /api/products
 x-api-key: my-secret-key
 Content-Type: application/json
@@ -105,9 +98,7 @@ Content-Type: application/json
 }
 Response (201 Created)
 
-json
-Copy
-Edit
+
 {
   "_id": "60dfd8c9fc13ae1f64000001",
   "name": "Samsung S22",
@@ -120,15 +111,11 @@ Edit
 2. Get all products (GET)
 Request
 
-http
-Copy
-Edit
+
 GET /api/products?page=1&limit=5&category=Electronics&inStock=true
 Response (200 OK)
 
-json
-Copy
-Edit
+
 {
   "page": 1,
   "limit": 5,
@@ -149,9 +136,7 @@ Edit
 3. Update a product (PUT)
 Request
 
-http
-Copy
-Edit
+
 PUT /api/products/60dfd8c9fc13ae1f64000001
 x-api-key: my-secret-key
 Content-Type: application/json
@@ -165,9 +150,7 @@ Content-Type: application/json
 }
 Response (200 OK)
 
-json
-Copy
-Edit
+
 {
   "_id": "60dfd8c9fc13ae1f64000001",
   "name": "Samsung S22 Ultra",
@@ -180,16 +163,12 @@ Edit
 4. Delete a product (DELETE)
 Request
 
-http
-Copy
-Edit
+
 DELETE /api/products/60dfd8c9fc13ae1f64000001
 x-api-key: my-secret-key
 Response (200 OK)
 
-json
-Copy
-Edit
+
 {
   "message": "Product deleted",
   "product": {
@@ -213,9 +192,7 @@ Error Handling
 
 Error responses have this format:
 
-json
-Copy
-Edit
+
 {
   "error": "ErrorName",
   "message": "Detailed message"
@@ -224,3 +201,4 @@ License
 This project is licensed under the MIT License.
 
 
+````
