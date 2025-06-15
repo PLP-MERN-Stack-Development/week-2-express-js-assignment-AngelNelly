@@ -1,63 +1,226 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=19778242&assignment_repo_type=AssignmentRepo)
-# Express.js RESTful API Assignment
+# Products API
 
-This assignment focuses on building a RESTful API using Express.js, implementing proper routing, middleware, and error handling.
+A simple RESTful API for managing products using Node.js, Express, and MongoDB.
 
-## Assignment Overview
+---
 
-You will:
-1. Set up an Express.js server
-2. Create RESTful API routes for a product resource
-3. Implement custom middleware for logging, authentication, and validation
-4. Add comprehensive error handling
-5. Develop advanced features like filtering, pagination, and search
+## Table of Contents
 
-## Getting Started
+- [Overview](#overview)  
+- [Setup & Run](#setup--run)  
+- [Environment Variables](#environment-variables)  
+- [API Endpoints](#api-endpoints)  
+- [Example Requests & Responses](#example-requests--responses)  
+- [Error Handling](#error-handling)  
+- [License](#license)
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Install dependencies:
-   ```
-   npm install
-   ```
-4. Run the server:
-   ```
-   npm start
-   ```
+---
 
-## Files Included
+## Overview
 
-- `Week2-Assignment.md`: Detailed assignment instructions
-- `server.js`: Starter Express.js server file
-- `.env.example`: Example environment variables file
+This API allows you to create, read, update, and delete products stored in a MongoDB database. It includes:
 
-## Requirements
+- Input validation for product data  
+- API key authentication for protected routes (POST, PUT, DELETE)  
+- Pagination and filtering for listing products  
+- Custom error handling
 
-- Node.js (v18 or higher)
-- npm or yarn
-- Postman, Insomnia, or curl for API testing
+---
 
-## API Endpoints
+## Setup & Run
 
-The API will have the following endpoints:
+### Prerequisites
 
-- `GET /api/products`: Get all products
-- `GET /api/products/:id`: Get a specific product
-- `POST /api/products`: Create a new product
-- `PUT /api/products/:id`: Update a product
-- `DELETE /api/products/:id`: Delete a product
+- Node.js (v14 or higher recommended)  
+- MongoDB running locally or accessible remotely  
 
-## Submission
+### Steps
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+1. Clone the repo:
 
-1. Complete all the required API endpoints
-2. Implement the middleware and error handling
-3. Document your API in the README.md
-4. Include examples of requests and responses
+   ```bash
+   git clone https://github.com/PLP-MERN-Stack-Development/week-2-express-js-assignment-AngelNelly.git
 
-## Resources
+   cd your-repo-name
+   
+   Install dependencies:
 
-- [Express.js Documentation](https://expressjs.com/)
-- [RESTful API Design Best Practices](https://restfulapi.net/)
-- [HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status) 
+bash
+Copy
+Edit
+npm install
+Create a .env file based on .env.example (see below) and configure your environment variables.
+
+Start your MongoDB server if it’s not running:
+
+bash
+Copy
+Edit
+mongod
+Run the server:
+
+bash
+Copy
+Edit
+node server.js
+Your API will be accessible at: http://localhost:3000
+
+Environment Variables
+Create a .env file in the root folder. Here's an example .env.example file:
+
+ini
+Copy
+Edit
+MONGO_URI=mongodb://localhost:27017/productsdb
+API_KEY=my-secret-key
+PORT=3000
+Make sure to update these values according to your environment.
+
+API Endpoints
+Method	Endpoint	Description	Auth Required	Request Body
+GET	/	Base route, returns a greeting	No	None
+GET	/api/products	Get all products (with pagination & filtering)	No	Query params: page, limit, category, inStock
+GET	/api/products/:id	Get a single product by ID	No	None
+POST	/api/products	Create a new product	Yes	JSON product object (see example)
+PUT	/api/products/:id	Update a product by ID	Yes	JSON product object
+DELETE	/api/products/:id	Delete a product by ID	Yes	None
+
+Example Requests & Responses
+1. Create a new product (POST)
+Request
+
+http
+Copy
+Edit
+POST /api/products
+x-api-key: my-secret-key
+Content-Type: application/json
+
+{
+  "name": "Samsung S22",
+  "description": "Android smartphone",
+  "price": 550.00,
+  "category": "Electronics",
+  "inStock": true
+}
+Response (201 Created)
+
+json
+Copy
+Edit
+{
+  "_id": "60dfd8c9fc13ae1f64000001",
+  "name": "Samsung S22",
+  "description": "Android smartphone",
+  "price": 550,
+  "category": "Electronics",
+  "inStock": true,
+  "__v": 0
+}
+2. Get all products (GET)
+Request
+
+http
+Copy
+Edit
+GET /api/products?page=1&limit=5&category=Electronics&inStock=true
+Response (200 OK)
+
+json
+Copy
+Edit
+{
+  "page": 1,
+  "limit": 5,
+  "total": 12,
+  "data": [
+    {
+      "_id": "60dfd8c9fc13ae1f64000001",
+      "name": "Samsung S22",
+      "description": "Android smartphone",
+      "price": 550,
+      "category": "Electronics",
+      "inStock": true,
+      "__v": 0
+    },
+    ...
+  ]
+}
+3. Update a product (PUT)
+Request
+
+http
+Copy
+Edit
+PUT /api/products/60dfd8c9fc13ae1f64000001
+x-api-key: my-secret-key
+Content-Type: application/json
+
+{
+  "name": "Samsung S22 Ultra",
+  "description": "Android smartphone - upgraded",
+  "price": 650,
+  "category": "Electronics",
+  "inStock": true
+}
+Response (200 OK)
+
+json
+Copy
+Edit
+{
+  "_id": "60dfd8c9fc13ae1f64000001",
+  "name": "Samsung S22 Ultra",
+  "description": "Android smartphone - upgraded",
+  "price": 650,
+  "category": "Electronics",
+  "inStock": true,
+  "__v": 0
+}
+4. Delete a product (DELETE)
+Request
+
+http
+Copy
+Edit
+DELETE /api/products/60dfd8c9fc13ae1f64000001
+x-api-key: my-secret-key
+Response (200 OK)
+
+json
+Copy
+Edit
+{
+  "message": "Product deleted",
+  "product": {
+    "_id": "60dfd8c9fc13ae1f64000001",
+    "name": "Samsung S22 Ultra",
+    "description": "Android smartphone - upgraded",
+    "price": 650,
+    "category": "Electronics",
+    "inStock": true,
+    "__v": 0
+  }
+}
+Error Handling
+403 Forbidden - Missing or invalid API key on protected routes.
+
+400 Bad Request - Invalid or missing product data.
+
+404 Not Found - Product not found for given ID.
+
+500 Internal Server Error - Unexpected server error.
+
+Error responses have this format:
+
+json
+Copy
+Edit
+{
+  "error": "ErrorName",
+  "message": "Detailed message"
+}
+License
+This project is licensed under the MIT License.
+
+
